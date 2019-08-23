@@ -104,6 +104,10 @@ class Images {
         this.imageUrls = imageUrls;
         this.index = 0;
 
+        // Clear container
+        while (this.containerEl.firstChild)
+            this.containerEl.removeChild(this.containerEl.firstChild);
+
         // Add images
         for (const imageUrl of this.imageUrls) {
             const imageEl = document.createElement("img");
@@ -214,11 +218,6 @@ class BearthdayUI {
     }
 
     render(){
-        // Clear images area
-        const imagesArea = this.rootEl.querySelector("#images");
-        while (imagesArea.firstChild)
-            imagesArea.removeChild(imagesArea.firstChild);
-
         // If loading, show loading message, and disable submit button
         if (this.isLoading) {
             this.rootEl.querySelector("#loading").classList.remove("hidden");
@@ -245,7 +244,7 @@ class BearthdayUI {
         }
         this.rootEl.querySelector("#bearthdayBanner").textContent = bannerText;
 
-        const imagesComponent = new Images(imagesArea, this.imageUrls);
+        const imagesComponent = new Images(this.rootEl.querySelector("#images"), this.imageUrls);
     }
 }
 
