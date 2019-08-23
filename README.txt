@@ -1,3 +1,8 @@
+To use:
+
+Open index.html in a browser.
+
+
 Comments:
 
 - I decided to go with Vanilla JS because I didn't want to mess with setting up a react development environment. I would definitely do it in React if I had more time, because it's more easily maintainable and scalable.
