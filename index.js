@@ -6,11 +6,22 @@ class Images {
         this.imageUrls = imageUrls;
         this.index = 0;
 
-        this.render();
-    }
-
-    render() {
-        // If we have an image, display it
+        // Set up slider if more than one image
+        if (this.imageUrls.length > 1) {
+            const slider = document.createElement("input");
+            slider.setAttribute("type", "range");
+            slider.setAttribute("min", 0);
+            slider.setAttribute("max", this.imageUrls.length-1);
+            slider.setAttribute("step", 1);
+            slider.setAttribute("value", 0);
+            slider.addEventListener("change", event=>{
+                this.index = parseInt(slider.value, 10);
+                this.render();
+            });
+            this.containerEl.appendChild(slider);
+        }
+        
+        // Add images
         for (const imageUrl of this.imageUrls) {
             const imageEl = document.createElement("img");
             imageEl.classList.add("earth");
@@ -19,6 +30,19 @@ class Images {
             imageEl.setAttribute("height", 500);
             this.containerEl.appendChild(imageEl);
         }
+
+        this.render();
+    }
+
+    render() {
+        // only show image at index
+        this.containerEl.querySelectorAll("img.earth").forEach((img, index)=>{
+            if (index === this.index) {
+                img.classList.remove("hidden");
+            } else {
+                img.classList.add("hidden");
+            }
+        });
     }
 }
 
