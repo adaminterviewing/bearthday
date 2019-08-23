@@ -103,7 +103,9 @@ class BearthdayUI {
         this.isLoading = false;
         this.parseError = false;
 
-        this.rootEl.querySelector("#submit").addEventListener("click", ()=>{
+        this.rootEl.querySelector("#queryForm").addEventListener("submit", (event)=>{
+            event.preventDefault();
+            
             this.submitBirthday(rootEl.querySelector("#birthday").value);
         });
 
@@ -112,7 +114,7 @@ class BearthdayUI {
 
     submitBirthday(input) {
         this.imageUrls = [];
-        
+
         const date = parseBirthday(input);
         if (date) {
             this.parseError = false;

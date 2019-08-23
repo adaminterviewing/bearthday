@@ -8,12 +8,14 @@
 	<div id="app">
 		<div id="querySection">
 			<label for="birthday">Enter Birthday:</label>
-			<input
-				id="birthday"
-				type="text"
-				placeholder="MM/DD"
-			/>
-			<button id="submit">Submit</button>
+			<form id="queryForm">
+				<input
+					id="birthday"
+					type="text"
+					placeholder="MM/DD"
+				/>
+				<button id="submit">Submit</button>
+			</form>
 			<span id="error" class="hidden">Date format error - please enter a valid date in the form MM/DD</span>
 		</div>
 		<div id="imageSection">
