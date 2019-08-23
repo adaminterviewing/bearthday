@@ -1,5 +1,31 @@
 const API_KEY = "yJtTgrBhiO9zcxu1wL1YF92duSZBIwIHxjStNdrm";
 
+class Images {
+    constructor(containerEl, imageUrls) {
+        this.containerEl = containerEl;
+        this.imageUrls = imageUrls;
+        this.index = 0;
+
+        this.render();
+    }
+
+    render() {
+        // If we have an image, display it
+        for (const imageUrl of this.imageUrls) {
+            const imageEl = document.createElement("img");
+            imageEl.classList.add("earth");
+            imageEl.src = imageUrl;
+            imageEl.setAttribute("width", 500);
+            imageEl.setAttribute("height", 500);
+            this.containerEl.appendChild(imageEl);
+        }
+    }
+}
+
+
+
+
+
 function getLastBirthdayYear(monthNum, dayNum) {
     const today = new Date();
     const currentMonth = today.getMonth() + 1;
@@ -48,7 +74,7 @@ function getImageUrl(imageMeta) {
 class BearthdayUI {
     constructor(rootEl) {
         this.rootEl = rootEl;
-        this.imageUrl = null;
+        this.imageUrls = [];
         this.isLoading = false;
         this.parseError = false;
 
@@ -72,11 +98,9 @@ class BearthdayUI {
             xmlHttp.onreadystatechange = ()=>{
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
                     const imagesMeta = JSON.parse(xmlHttp.responseText);
-                    if (imagesMeta.length > 0) {
-                        this.imageUrl = getImageUrl(imagesMeta[0]);
-                    }
-
+                    this.imageUrls = imagesMeta.map(getImageUrl);
                     this.isLoading = false;
+
                     this.render();
                 }
             }
@@ -84,7 +108,7 @@ class BearthdayUI {
             xmlHttp.send(null);
         } else {
             this.parseError = true;
-            this.imageUrl = null;
+            this.imageUrls = [];
         }
 
         this.render();
@@ -112,15 +136,7 @@ class BearthdayUI {
             this.rootEl.querySelector("#error").classList.add("hidden");
         }
 
-        // If we have an image, display it
-        if (this.imageUrl) {
-            const imageEl = document.createElement("img");
-            imageEl.classList.add("earth");
-            imageEl.src = this.imageUrl;
-            imageEl.setAttribute("width", 500);
-            imageEl.setAttribute("height", 500);
-            imagesArea.appendChild(imageEl);
-        }   
+        const imagesComponent = new Images(imagesArea, this.imageUrls);
     }
 }
 
