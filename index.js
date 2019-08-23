@@ -1,5 +1,4 @@
 // -------- DATE UTILS --------- //
-
 const LAST_DAY_OF_MONTH = {
     1: 31,
     2: 28, // For simplicity, let's not worry about leap years
@@ -19,25 +18,37 @@ function isDateEqual(a, b) {
     return a.day === b.day && a.month === b.month && a.year === b.year;
 }
 
+function dateNumToString(x) {
+    if (x < 10) {
+        return "0"+x.toString();
+    } else {
+        return x.toString();
+    }
+}
+
 function getPrevDay(date) {
-    if (date.day > 1) {
+    const day = parseInt(date.day, 10);
+    const month = parseInt(date.month, 10);
+    const year = parseInt(date.year, 10);
+
+    if (day > 1) {
         // not at first day, so just subtract a day
-        return Object.assign({}, date, { day: date.day-1 });
+        return Object.assign({}, date, { day: dateNumToString(day-1) });
     } else if (month > 1) {
         // were at the first day.
         // but not at first month, so just go to first day of prev month
-        const prevMonth = date.month - 1;
+        const prevMonth = dateNumToString(month - 1);
         return {
             month: prevMonth,
-            day: LAST_DAY_OF_MONTH[prevMonth],
+            day: dateNumToString(LAST_DAY_OF_MONTH[prevMonth]),
             year: date.year
         };
     } else {
         // we're on january 1st
         return {
-            month: 12,
-            day: LAST_DAY_OF_MONTH[12],
-            year: date.year - 1
+            month: "12",
+            day: "31",
+            year: (year - 1).toString()
         };
     }
 }
@@ -66,7 +77,7 @@ function parseBirthday(input) {
         return {
             month:month,
             day:day,
-            year:getLastBirthdayYear(parseInt(month, 10), parseInt(day, 10))
+            year:getLastBirthdayYear(parseInt(month, 10), parseInt(day, 10)).toString()
         };
     } else {
         return null;
