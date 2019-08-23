@@ -1,3 +1,17 @@
 .hidden {
 	display:none;
 }
+
+#imageSlider {
+	display:block;
+}
+
+#app, #images {
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+}
+
+#loading {
+	margin-top:20px;
+}

@@ -6,17 +6,20 @@
 </head>
 <body>
 	<div id="app">
-		<label for="birthday">Enter Birthday:</label>
-		<input
-			id="birthday"
-			type="text"
-			placeholder="MM/DD"
-		/>
-		<button id="submit">Submit</button>
-		<span id="error" class="hidden">Date format error - please enter a valid date in the form MM/DD</span>
-
-		<div id="loading" class="hidden">Loading...</div>
-		<div id="images"></div>
+		<div id="querySection">
+			<label for="birthday">Enter Birthday:</label>
+			<input
+				id="birthday"
+				type="text"
+				placeholder="MM/DD"
+			/>
+			<button id="submit">Submit</button>
+			<span id="error" class="hidden">Date format error - please enter a valid date in the form MM/DD</span>
+		</div>
+		<div id="imageSection">
+			<div id="loading" class="hidden">Loading...</div>
+			<div id="images"></div>
+		</div>
 	</div>
 	<script src="./index.js" type="text/javascript"></script>
 </body>

@@ -6,9 +6,20 @@ class Images {
         this.imageUrls = imageUrls;
         this.index = 0;
 
+        // Add images
+        for (const imageUrl of this.imageUrls) {
+            const imageEl = document.createElement("img");
+            imageEl.classList.add("earth");
+            imageEl.src = imageUrl;
+            imageEl.setAttribute("width", 500);
+            imageEl.setAttribute("height", 500);
+            this.containerEl.appendChild(imageEl);
+        }
+
         // Set up slider if more than one image
         if (this.imageUrls.length > 1) {
             const slider = document.createElement("input");
+            slider.setAttribute("id", "imageSlider");
             slider.setAttribute("type", "range");
             slider.setAttribute("min", 0);
             slider.setAttribute("max", this.imageUrls.length-1);
@@ -19,16 +30,6 @@ class Images {
                 this.render();
             });
             this.containerEl.appendChild(slider);
-        }
-        
-        // Add images
-        for (const imageUrl of this.imageUrls) {
-            const imageEl = document.createElement("img");
-            imageEl.classList.add("earth");
-            imageEl.src = imageUrl;
-            imageEl.setAttribute("width", 500);
-            imageEl.setAttribute("height", 500);
-            this.containerEl.appendChild(imageEl);
         }
 
         this.render();
@@ -110,8 +111,9 @@ class BearthdayUI {
     }
 
     submitBirthday(input) {
+        this.imageUrls = [];
+        
         const date = parseBirthday(input);
-
         if (date) {
             this.parseError = false;
             this.isLoading = true;
@@ -132,7 +134,6 @@ class BearthdayUI {
             xmlHttp.send(null);
         } else {
             this.parseError = true;
-            this.imageUrls = [];
         }
 
         this.render();
