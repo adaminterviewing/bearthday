@@ -1,4 +1,5 @@
-const API_KEY = "yJtTgrBhiO9zcxu1wL1YF92duSZBIwIHxjStNdrm";
+// -------- DATE UTILS --------- //
+
 const LAST_DAY_OF_MONTH = {
     1: 31,
     2: 28, // For simplicity, let's not worry about leap years
@@ -13,55 +14,6 @@ const LAST_DAY_OF_MONTH = {
     11: 30,
     12: 31
 }
-
-class Images {
-    constructor(containerEl, imageUrls) {
-        this.containerEl = containerEl;
-        this.imageUrls = imageUrls;
-        this.index = 0;
-
-        // Add images
-        for (const imageUrl of this.imageUrls) {
-            const imageEl = document.createElement("img");
-            imageEl.classList.add("earth");
-            imageEl.src = imageUrl;
-            imageEl.setAttribute("width", 500);
-            imageEl.setAttribute("height", 500);
-            this.containerEl.appendChild(imageEl);
-        }
-
-        // Set up slider if more than one image
-        if (this.imageUrls.length > 1) {
-            const slider = document.createElement("input");
-            slider.setAttribute("id", "imageSlider");
-            slider.setAttribute("type", "range");
-            slider.setAttribute("min", 0);
-            slider.setAttribute("max", this.imageUrls.length-1);
-            slider.setAttribute("step", 1);
-            slider.setAttribute("value", 0);
-            slider.addEventListener("change", event=>{
-                this.index = parseInt(slider.value, 10);
-                this.render();
-            });
-            this.containerEl.appendChild(slider);
-        }
-
-        this.render();
-    }
-
-    render() {
-        // only show image at index
-        this.containerEl.querySelectorAll("img.earth").forEach((img, index)=>{
-            if (index === this.index) {
-                img.classList.remove("hidden");
-            } else {
-                img.classList.add("hidden");
-            }
-        });
-    }
-}
-
-
 
 function isDateEqual(a, b) {
     return a.day === b.day && a.month === b.month && a.year === b.year;
@@ -121,6 +73,7 @@ function parseBirthday(input) {
     }
 }
 
+
 function parseImageDate(imageTimestamp) {
     const matchResult = imageTimestamp.match(/(\d\d\d\d)-(\d\d)-(\d\d)/);
     return {
@@ -130,10 +83,67 @@ function parseImageDate(imageTimestamp) {
     };
 }
 
+// -------- NASA API UTILS --------- //
+
+const API_KEY = "yJtTgrBhiO9zcxu1wL1YF92duSZBIwIHxjStNdrm";
+
 function getImageUrl(imageMeta) {
     const date = parseImageDate(imageMeta.date);
     return `https://api.nasa.gov/EPIC/archive/natural/${date.year}/${date.month}/${date.day}/png/${imageMeta.image}.png?api_key=${API_KEY}`;
 }   
+
+function getImagesMetaUrl(date) {
+    return `https://api.nasa.gov/EPIC/api/natural/date/${date.year}-${date.month}-${date.day}?api_key=${API_KEY}`;
+}   
+
+
+// -------- COMPONENTS --------- //
+class Images {
+    constructor(containerEl, imageUrls) {
+        this.containerEl = containerEl;
+        this.imageUrls = imageUrls;
+        this.index = 0;
+
+        // Add images
+        for (const imageUrl of this.imageUrls) {
+            const imageEl = document.createElement("img");
+            imageEl.classList.add("earth");
+            imageEl.src = imageUrl;
+            imageEl.setAttribute("width", 500);
+            imageEl.setAttribute("height", 500);
+            this.containerEl.appendChild(imageEl);
+        }
+
+        // Set up slider if more than one image
+        if (this.imageUrls.length > 1) {
+            const slider = document.createElement("input");
+            slider.setAttribute("id", "imageSlider");
+            slider.setAttribute("type", "range");
+            slider.setAttribute("min", 0);
+            slider.setAttribute("max", this.imageUrls.length-1);
+            slider.setAttribute("step", 1);
+            slider.setAttribute("value", 0);
+            slider.addEventListener("change", event=>{
+                this.index = parseInt(slider.value, 10);
+                this.render();
+            });
+            this.containerEl.appendChild(slider);
+        }
+
+        this.render();
+    }
+
+    render() {
+        // only show image at index
+        this.containerEl.querySelectorAll("img.earth").forEach((img, index)=>{
+            if (index === this.index) {
+                img.classList.remove("hidden");
+            } else {
+                img.classList.add("hidden");
+            }
+        });
+    }
+}
 
 class BearthdayUI {
     constructor(rootEl) {
@@ -183,7 +193,7 @@ class BearthdayUI {
     fetchImageUrls(date, callback) {
         // Fetch images for given birthday
         // If there are none, then try again with the previous day
-        var imagesUrl = `https://api.nasa.gov/EPIC/api/natural/date/${date.year}-${date.month}-${date.day}?api_key=${API_KEY}`;
+        var imagesMetaUrl = getImagesMetaUrl(date);
         var xmlHttp = new XMLHttpRequest();
         xmlHttp.onreadystatechange = ()=>{
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
@@ -199,7 +209,7 @@ class BearthdayUI {
                 }
             }
         }
-        xmlHttp.open("GET", imagesUrl, true);
+        xmlHttp.open("GET", imagesMetaUrl, true);
         xmlHttp.send(null);
     }
 
@@ -239,5 +249,6 @@ class BearthdayUI {
     }
 }
 
+// -------- INITIALIZE APP --------- //
 
 var component = new BearthdayUI(document.getElementById("app"));

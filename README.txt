@@ -5,7 +5,7 @@ Open index.html in a browser.
 
 Comments:
 
-- I decided to go with Vanilla JS, in one file, because it's small enough for now, and because I didn't want to get into setting up a React/Babel/Webpack development environment. I would definitely do it with React/Webpack/Babel if I had more time, because it's more easily maintainable and scalable.
+- I decided to go with Vanilla JS, in one file, because it's small enough for now, and because I didn't want to get into setting up a React/Babel/Webpack development environment. I tried using ES6 imports in the browser and it didn't seem to work. I organized the code into sections that would be split into files, to show code organization. I would definitely do it with React/Webpack/Babel for a real project, because it's key for maintainability and scalability.
 
 - Another cool UI thing would be to add labels to the range slider, on the left is the time of the earliest image, on the right is the time of the latest image.
 
