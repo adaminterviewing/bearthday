@@ -1,21 +1,21 @@
 .hidden {
-	display:none;
+    display:none;
 }
 
 #imageSlider {
-	display:block;
+    display:block;
 }
 
 #app, #images {
-	display:flex;
-	flex-direction:column;
-	align-items:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 #loading {
-	margin-top:20px;
+    margin-top:20px;
 }
 
 #queryForm {
-	display:inline;
+    display:inline;
 }
