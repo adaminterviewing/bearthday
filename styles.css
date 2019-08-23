@@ -6,13 +6,17 @@
     display:block;
 }
 
-#app, #images {
+#app, #images, #imageSection {
     display:flex;
     flex-direction:column;
     align-items:center;
 }
 
-#loading {
+#bearthdayBanner {
+    margin-bottom:5px;
+}
+
+#imageSection {
     margin-top:20px;
 }
 
